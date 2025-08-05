@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Dashboard - CinemaPulse{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Welcome, {{ session.username }}! 🎬</h1>
+    <p style="color: #666; margin-bottom: 2rem;">Explore movies and share your reviews</p>
+    
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="/movies" class="btn">Browse Movies</a>
+        <a href="/feedback" class="btn btn-success">Give Feedback</a>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+    <!-- Recent Movies -->
+    <div class="card">
+        <h3>🎞️ Recent Movies</h3>
+        {% if movies %}
+            {% for movie in movies %}
+            <div style="border-bottom: 1px solid #eee; padding: 1rem 0;">
+                <h4>{{ movie.title }}</h4>
+                <p><strong>Director:</strong> {{ movie.director }}</p>
+                <p><strong>Genre:</strong> {{ movie.genre }}</p>
+                <p><strong>Release:</strong> {{ movie.release_date }}</p>
+                <a href="/movie/{{ movie.movie_id }}/review" class="btn" style="margin-top: 0.5rem;">Write Review</a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No movies available yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Your Recent Reviews -->
+    <div class="card">
+        <h3>📝 Your Recent Reviews</h3>
+        {% if user_reviews %}
+            {% for review in user_reviews %}
+            <div style="border-bottom: 1px solid #eee; padding: 1rem 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>Rating: {{ review.rating }}/5 ⭐</strong>
+                    <span style="color: #666; font-size: 0.9rem;">
+                        {% if review.sentiment == 'positive' %}
+                            😊 Positive
+                        {% elif review.sentiment == 'negative' %}
+                            😞 Negative
+                        {% else %}
+                            😐 Neutral
+                        {% endif %}
+                    </span>
+                </div>
+                <p style="margin: 0.5rem 0; color: #666;">{{ review.comment[:100] }}{% if review.comment|length > 100 %}...{% endif %}</p>
+                <small style="color: #999;">{{ review.created_at[:10] }}</small>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>You haven't written any reviews yet. <a href="/movies">Start reviewing!</a></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

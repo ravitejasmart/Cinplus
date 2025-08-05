@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Login - CinemaPulse{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 400px; margin: 0 auto;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">Login to CinemaPulse</h2>
+    
+    <form method="POST" action="/login">
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn" style="width: 100%;">Login</button>
+        </div>
+    </form>
+    
+    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eee;">
+        <p>Don't have an account? <a href="/register" style="color: #3498db; text-decoration: none;">Register here</a></p>
+    </div>
+</div>
+{% endblock %}

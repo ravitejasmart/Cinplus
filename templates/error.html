@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Error - CinemaPulse{% endblock %}
+
+{% block content %}
+<div class="card" style="text-align: center; max-width: 500px; margin: 2rem auto;">
+    <div style="font-size: 4rem; margin-bottom: 1rem;">🎬💥</div>
+    
+    <h2 style="color: #e74c3c; margin-bottom: 1rem;">Oops! Something went wrong</h2>
+    
+    <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
+        {% if error %}
+            {{ error }}
+        {% else %}
+            An unexpected error occurred while processing your request.
+        {% endif %}
+    </p>
+    
+    <div style="margin: 2rem 0;">
+        <a href="/" class="btn" style="margin-right: 1rem;">Go Home</a>
+        <a href="/dashboard" class="btn btn-success">Dashboard</a>
+    </div>
+    
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #eee;">
+        <p style="color: #999; font-size: 0.9rem;">
+            If this problem persists, please <a href="/feedback" style="color: #3498db;">contact support</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

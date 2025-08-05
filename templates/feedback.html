@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Feedback - CinemaPulse{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">💬 Share Your Feedback</h2>
+    
+    <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+        Help us improve CinemaPulse! Share your thoughts, suggestions, or report any issues.
+    </p>
+    
+    <form method="POST" action="/feedback">
+        <div class="form-group">
+            <label for="feedback_type">Feedback Type</label>
+            <select id="feedback_type" name="feedback_type">
+                <option value="general">General Feedback</option>
+                <option value="bug_report">Bug Report</option>
+                <option value="feature_request">Feature Request</option>
+                <option value="complaint">Complaint</option>
+                <option value="compliment">Compliment</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="subject">Subject *</label>
+            <input type="text" id="subject" name="subject" required placeholder="Brief summary of your feedback">
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" required placeholder="Please provide detailed feedback..." rows="6"></textarea>
+            <small style="color: #666;">Be specific to help us understand and address your feedback better</small>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button type="submit" class="btn btn-success">Submit Feedback</button>
+            <a href="/dashboard" class="btn" style="background: #95a5a6;">Cancel</a>
+        </div>
+    </form>
+    
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #eee; text-align: center;">
+        <h4>Thank you for helping us improve! 🙏</h4>
+        <p style="color: #666; margin: 1rem 0;">Your feedback is valuable and helps make CinemaPulse better for everyone.</p>
+    </div>
+</div>
+{% endblock %}

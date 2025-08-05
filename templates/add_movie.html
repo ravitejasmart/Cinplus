@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Add Movie - CinemaPulse{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">🎬 Add New Movie</h2>
+    
+    <form method="POST" action="/admin/movies/add">
+        <div class="form-group">
+            <label for="title">Movie Title *</label>
+            <input type="text" id="title" name="title" required placeholder="Enter movie title">
+        </div>
+        
+        <div class="form-group">
+            <label for="director">Director *</label>
+            <input type="text" id="director" name="director" required placeholder="Enter director name">
+        </div>
+        
+        <div class="form-group">
+            <label for="genre">Genre *</label>
+            <select id="genre" name="genre" required>
+                <option value="">Select Genre</option>
+                <option value="Action">Action</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Drama">Drama</option>
+                <option value="Horror">Horror</option>
+                <option value="Romance">Romance</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Animation">Animation</option>
+                <option value="Documentary">Documentary</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Crime">Crime</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="release_date">Release Date *</label>
+            <input type="date" id="release_date" name="release_date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Enter movie description (optional)" rows="4"></textarea>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button type="submit" class="btn btn-success">Add Movie</button>
+            <a href="/movies" class="btn" style="background: #95a5a6;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

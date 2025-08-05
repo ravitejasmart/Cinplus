@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Reviews - {{ movie.title if movie }}{% endblock %}
+
+{% block content %}
+{% if movie %}
+    <div class="card">
+        <h1>{{ movie.title }} - Reviews</h1>
+        
+        <!-- Movie Details -->
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div><strong>🎬 Director:</strong> {{ movie.director }}</div>
+                <div><strong>🎭 Genre:</strong> {{ movie.genre }}</div>
+                <div><strong>📅 Release:</strong> {{ movie.release_date }}</div>
+            </div>
+            {% if movie.description %}
+                <p style="margin-top: 1rem; color: #666;">{{ movie.description }}</p>
+            {% endif %}
+        </div>
+        
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+            <a href="/movie/{{ movie.movie_id }}/review" class="btn btn-success">Write Your Review</a>
+            <a href="/movies" class="btn" style="background: #95a5a6;">Back to Movies</a>
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    {% if reviews %}
+        <div class="card">
+            <h3>📝 User Reviews ({{ reviews|length }})</h3>
+            
+            <div style="margin-top: 2rem;">
+                {% for review in reviews %}
+                    <div style="border-bottom: 1px solid #eee; padding: 1.5rem 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <strong style="font-size: 1.1rem;">{{ review.username }}</strong>
+                                <div style="margin: 0.5rem 0;">
+                                    {% for i in range(review.rating) %}⭐{% endfor %}
+                                    <span style="margin-left: 0.5rem; color: #666;">{{ review.rating }}/5</span>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;
+                                    {% if review.sentiment == 'positive' %}background: #d4edda; color: #155724;
+                                    {% elif review.sentiment == 'negative' %}background: #f8d7da; color: #721c24;
+                                    {% else %}background: #e2e3e5; color: #383d41;{% endif %}">
+                                    {% if review.sentiment == 'positive' %}😊 Positive
+                                    {% elif review.sentiment == 'negative' %}😞 Negative
+                                    {% else %}😐 Neutral{% endif %}
+                                </span>
+                                <div style="margin-top: 0.5rem;">
+                                    <small style="color: #999;">{{ review.created_at[:10] }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% if review.comment %}
+                            <p style="color: #333; line-height: 1.6; margin: 0;">{{ review.comment }}</p>
+                        {% else %}
+                            <p style="color: #999; font-style: italic;">No written review provided.</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center;">
+            <h3>No Reviews Yet</h3>
+            <p style="color: #666; margin: 1rem 0;">Be the first to review this movie!</p>
+            <a href="/movie/{{ movie.movie_id }}/review" class="btn btn-success">Write First Review</a>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="card" style="text-align: center;">
+        <h3>Movie Not Found</h3>
+        <p>The movie you're looking for doesn't exist.</p>
+        <a href="/movies" class="btn">Back to Movies</a>
+    </div>
+{% endif %}
+{% endblock %}

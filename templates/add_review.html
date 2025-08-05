@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Write Review - CinemaPulse{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    {% if movie %}
+        <h2 style="text-align: center; margin-bottom: 1rem;">📝 Write Review</h2>
+        
+        <!-- Movie Info -->
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+            <h3>{{ movie.title }}</h3>
+            <p><strong>Director:</strong> {{ movie.director }}</p>
+            <p><strong>Genre:</strong> {{ movie.genre }}</p>
+            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+        </div>
+        
+        <form method="POST" action="/movie/{{ movie.movie_id }}/review">
+            <div class="form-group">
+                <label for="rating">Rating *</label>
+                <select id="rating" name="rating" required style="font-size: 1.1rem;">
+                    <option value="">Select Rating</option>
+                    <option value="5">⭐⭐⭐⭐⭐ (5/5) - Excellent</option>
+                    <option value="4">⭐⭐⭐⭐ (4/5) - Very Good</option>
+                    <option value="3">⭐⭐⭐ (3/5) - Good</option>
+                    <option value="2">⭐⭐ (2/5) - Fair</option>
+                    <option value="1">⭐ (1/5) - Poor</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="comment">Your Review</label>
+                <textarea id="comment" name="comment" placeholder="Share your thoughts about this movie..." rows="6"></textarea>
+                <small style="color: #666;">Optional: Tell others what you liked or disliked about the movie</small>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button type="submit" class="btn btn-success">Submit Review</button>
+                <a href="/movies" class="btn" style="background: #95a5a6;">Cancel</a>
+            </div>
+        </form>
+    {% else %}
+        <div style="text-align: center;">
+            <h3>Movie Not Found</h3>
+            <p>The movie you're trying to review doesn't exist.</p>
+            <a href="/movies" class="btn">Back to Movies</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to CinemaPulse{% endblock %}
+
+{% block content %}
+<div class="card" style="text-align: center;">
+    <h1>Welcome to CinemaPulse 🎬</h1>
+    <p style="font-size: 1.2rem; margin: 2rem 0; color: #666;">
+        Your ultimate destination for movie reviews and cinema insights
+    </p>
+    
+    <div style="margin: 3rem 0;">
+        {% if not session.user_id %}
+            <a href="/login" class="btn" style="margin-right: 1rem;">Login</a>
+            <a href="/register" class="btn btn-success">Get Started</a>
+        {% else %}
+            <a href="/dashboard" class="btn">Go to Dashboard</a>
+        {% endif %}
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+    <div class="card" style="text-align: center;">
+        <h3>📝 Write Reviews</h3>
+        <p>Share your thoughts and rate your favorite movies with fellow cinema enthusiasts.</p>
+    </div>
+    
+    <div class="card" style="text-align: center;">
+        <h3>🎯 Discover Movies</h3>
+        <p>Explore a wide collection of movies across different genres and eras.</p>
+    </div>
+    
+    <div class="card" style="text-align: center;">
+        <h3>📊 Sentiment Analysis</h3>
+        <p>Advanced AI-powered sentiment analysis helps understand movie reception.</p>
+    </div>
+</div>
+{% endblock %}

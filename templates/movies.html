@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Movies - CinemaPulse{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1>🎬 Movies Collection</h1>
+        {% if session.user_role == 'admin' %}
+            <a href="/admin/movies/add" class="btn btn-success">Add New Movie</a>
+        {% endif %}
+    </div>
+</div>
+
+{% if movies %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
+        {% for movie in movies %}
+        <div class="card">
+            <h3>{{ movie.title }}</h3>
+            <div style="margin: 1rem 0;">
+                <p><strong>🎭 Genre:</strong> {{ movie.genre }}</p>
+                <p><strong>🎬 Director:</strong> {{ movie.director }}</p>
+                <p><strong>📅 Release Date:</strong> {{ movie.release_date }}</p>
+            </div>
+            
+            {% if movie.description %}
+            <p style="color: #666; margin: 1rem 0; line-height: 1.4;">{{ movie.description[:150] }}{% if movie.description|length > 150 %}...{% endif %}</p>
+            {% endif %}
+            
+            <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                <a href="/movie/{{ movie.movie_id }}/review" class="btn">Write Review</a>
+                <a href="/movie/{{ movie.movie_id }}/reviews" class="btn" style="background: #95a5a6;">View Reviews</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card" style="text-align: center;">
+        <h3>No Movies Available</h3>
+        <p style="color: #666; margin: 1rem 0;">No movies have been added yet.</p>
+        {% if session.user_role == 'admin' %}
+            <a href="/admin/movies/add" class="btn btn-success">Add First Movie</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

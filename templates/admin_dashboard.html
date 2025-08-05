@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - CinemaPulse{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Admin Dashboard 👨‍💼</h1>
+    <p style="color: #666; margin-bottom: 2rem;">Monitor reviews and manage the platform</p>
+    
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="/admin/movies/add" class="btn btn-success">Add Movie</a>
+        <a href="/movies" class="btn">View All Movies</a>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+    <div class="card" style="text-align: center; background: linear-gradient(135deg, #27ae60, #2ecc71);">
+        <h3 style="color: white; margin-bottom: 0.5rem;">{{ sentiment_stats.positive }}</h3>
+        <p style="color: white; margin: 0;">😊 Positive Reviews</p>
+    </div>
+    
+    <div class="card" style="text-align: center; background: linear-gradient(135deg, #f39c12, #e67e22);">
+        <h3 style="color: white; margin-bottom: 0.5rem;">{{ sentiment_stats.neutral }}</h3>
+        <p style="color: white; margin: 0;">😐 Neutral Reviews</p>
+    </div>
+    
+    <div class="card" style="text-align: center; background: linear-gradient(135deg, #e74c3c, #c0392b);">
+        <h3 style="color: white; margin-bottom: 0.5rem;">{{ sentiment_stats.negative }}</h3>
+        <p style="color: white; margin: 0;">😞 Negative Reviews</p>
+    </div>
+    
+    <div class="card" style="text-align: center; background: linear-gradient(135deg, #3498db, #2980b9);">
+        <h3 style="color: white; margin-bottom: 0.5rem;">{{ total_reviews }}</h3>
+        <p style="color: white; margin: 0;">📊 Total Reviews</p>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+    <!-- Recent Reviews -->
+    <div class="card">
+        <h3>📝 Recent Reviews</h3>
+        {% if reviews %}
+            <div style="max-height: 400px; overflow-y: auto;">
+                {% for review in reviews[:10] %}
+                <div style="border-bottom: 1px solid #eee; padding: 1rem 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <strong>{{ review.username }}</strong>
+                        <div>
+                            <span style="margin-right: 1rem;">{{ review.rating }}/5 ⭐</span>
+                            <span style="padding: 2px 6px; border-radius: 3px; font-size: 0.8rem; 
+                                {% if review.sentiment == 'positive' %}background: #d4edda; color: #155724;
+                                {% elif review.sentiment == 'negative' %}background: #f8d7da; color: #721c24;
+                                {% else %}background: #e2e3e5; color: #383d41;{% endif %}">
+                                {{ review.sentiment|title }}
+                            </span>
+                        </div>
+                    </div>
+                    <p style="color: #666; margin: 0.5rem 0;">{{ review.comment[:80] }}{% if review.comment|length > 80 %}...{% endif %}</p>
+                    <small style="color: #999;">{{ review.created_at[:16] }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No reviews available.</p>
+        {% endif %}
+    </div>
+
+    <!-- Negative Feedback Alerts -->
+    <div class="card">
+        <h3>⚠️ Negative Feedback Alerts</h3>
+        {% if negative_feedback %}
+            <div style="max-height: 400px; overflow-y: auto;">
+                {% for feedback in negative_feedback[:5] %}
+                <div style="border-left: 4px solid #e74c3c; padding-left: 1rem; margin-bottom: 1rem; background: #fdf2f2;">
+                    <h4 style="color: #e74c3c; margin-bottom: 0.5rem;">{{ feedback.subject }}</h4>
+                    <p style="color: #666; margin: 0.5rem 0;">{{ feedback.message[:100] }}{% if feedback.message|length > 100 %}...{% endif %}</p>
+                    <small style="color: #999;">By {{ feedback.username }} on {{ feedback.created_at[:10] }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color: #27ae60;">✅ No negative feedback to review!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
